@@ -1,0 +1,34 @@
+
+services:
+  db:
+    image: postgres:12
+    deploy:
+      replicas: 1
+    environment:
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=yeahnah"
+      - "PGDATA=/var/lib/postgresql/data"
+    volumes:
+      - pgvol:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  git:
+    deploy:
+      replicas: 1
+    image: bitbucket:7.21.0
+    environment:
+      - "PROXY_NAME=git.xrob.au"
+      - "PROXY_PORT=443"
+      - "PROXY_SCHEME=https"
+    volumes:
+      - gitvol:/var/atlassian/bitbucket
+    ports:
+      - "7990:7990"
+      - "7999:7999"
+
+volumes:
+  pgvol:
+  gitvol:
+
+
